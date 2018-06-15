@@ -1,0 +1,27 @@
+{
+  "name": "news-scrapebook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Geoff-Goodwin-Dev/News-Scrapebook.git"
+  },
+  "author": "Geoff Goodwin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Geoff-Goodwin-Dev/News-Scrapebook/issues"
+  },
+  "homepage": "https://github.com/Geoff-Goodwin-Dev/News-Scrapebook#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^5.1.5",
+    "request": "^2.87.0"
+  }
+}
