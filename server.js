@@ -27,6 +27,7 @@ mongoose.connect(MONGODB_URI);
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// ROUTES
 app.get('/', (req, res) => {
   res.render("index");
 });
