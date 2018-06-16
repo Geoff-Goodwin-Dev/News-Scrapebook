@@ -10,20 +10,22 @@ const cheerio = require("cheerio");
 // Require all models
 const db = require("./models");
 
+// Sets server port
 const PORT = process.env.PORT || 3000;
 
 // Initialize Express
 const app = express();
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-// app.use(express.static("public"));
 // Connect to the Mongo DB
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
-
 mongoose.connect(MONGODB_URI);
 
+//Handlebars setup
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
@@ -68,7 +70,7 @@ app.get('/scrape', (req, res) => {
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", (req, res) => {
+app.get("/api/articles", (req, res) => {
   db.Article.find({})
     .then((dbArticle) => {
       res.json(dbArticle);
