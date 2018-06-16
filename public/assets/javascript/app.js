@@ -1,9 +1,21 @@
 $( document ).ready(() => {
 
-  $.getJSON("/api/articles", (data) => {
-    console.log(data);
-    data.forEach((article) => {
-      $("#articles").append(`<p data-id="${article._id}">${article.headline}<br>${article.URL}</p>`);
+  $(document).on("click", "#scrapeButton", (event) => {
+    event.preventDefault();
+    $.get("/api/scrape").then(() => {
+      $.getJSON("/api/articles", (data) => {
+        $("#articles").empty();
+        data.forEach((article) => {
+          $("#articles").append(`<div id="${article._id}" class="article" data-id="${article._id}"></div>`);
+          $(`#${article._id}`).append(
+            `<div class="imageContainer"><img class="articleImage" src="${article.image}"></div>`,
+            `<a href="${article.URL}" target="_blank"><h2>${article.headline}</h2></a>`,
+            `<h3 class="author">By: ${article.author}</h3>`,
+            `<hr>`,
+            `<p class="summary">${article.summary}</p>`
+            );
+        });
+      });
     });
   });
 

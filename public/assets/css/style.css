@@ -6,11 +6,41 @@ body { background-color: #F2F6D0 }
   padding-top: 5%;
 }
 #articles {
-  display: inline-block;
-  overflow: auto;
-  width: 60%;
-  height: 700px;
+  border: 1px solid #888888;
+  border-radius: 4px;
+  padding: 10px;
 }
+
+.article {
+  border: 1px solid #888888;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.imageContainer {
+  float: left;
+  height: 100%;
+}
+
+.articleImage {
+  width: 200px;
+}
+
+.article > a {
+  text-decoration: none;
+  clear: both;
+}
+
+.article > a > h2 {
+  margin: 0;
+}
+
+.article > h3 {
+  margin: 0;
+}
+
+
 #notes {
   float: right;
   width: 30%;

@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
   res.render("index");
 });
 
-app.get('/scrape', (req, res) => {
+app.get('/api/scrape', (req, res) => {
   request('https://gizmodo.com/c/space', (error, response, body) => {
     if (error) throw error;
     else {
