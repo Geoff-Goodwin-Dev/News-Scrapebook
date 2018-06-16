@@ -6,14 +6,19 @@ $( document ).ready(() => {
       $.getJSON("/api/articles", (data) => {
         $("#articles").empty();
         data.forEach((article) => {
-          $("#articles").append(`<div id="${article._id}" class="article" data-id="${article._id}"></div>`);
+          $("#articles").append(`<div id="${article._id}" class="article"></div>`);
           $(`#${article._id}`).append(
-            `<div class="imageContainer"><img class="articleImage" src="${article.image}"></div>`,
+            `<div id="image_${article._id}" class="imageContainer"></div>`,
+            `<div id="details_${article._id}" class="articleDetailsContainer">`,
+            `<img class="saveButton" src="assets/images/saveIcon.png" data-id="${article._id}">`
+          );
+          $(`#image_${article._id}`).append(`<img class="articleImage" src="${article.image}">`);
+          $(`#details_${article._id}`).append(
             `<a href="${article.URL}" target="_blank"><h2>${article.headline}</h2></a>`,
             `<h3 class="author">By: ${article.author}</h3>`,
             `<hr>`,
             `<p class="summary">${article.summary}</p>`
-            );
+          );
         });
       });
     });

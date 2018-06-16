@@ -1,42 +1,58 @@
-body { background-color: #F2F6D0 }
-#wrapper {
-  width: 960px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 5%;
+body {
+  background-color: whitesmoke;
 }
+
 #articles {
   border: 1px solid #888888;
+  background-color: #666666;
   border-radius: 4px;
   padding: 10px;
 }
 
 .article {
+  background-color: white;
   border: 1px solid #888888;
   border-radius: 4px;
   margin-bottom: 10px;
   overflow: hidden;
+  position: relative;
+  padding: 15px 40px 15px 15px;
 }
 
 .imageContainer {
   float: left;
-  height: 100%;
+  width: 20%;
 }
 
 .articleImage {
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
-.article > a {
+.articleDetailsContainer {
+  padding-left: 1%;
+  float: left;
+  width: 75%;
+}
+
+.saveButton {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.articleDetailsContainer > a {
   text-decoration: none;
   clear: both;
 }
 
-.article > a > h2 {
+.articleDetailsContainer > a > h2 {
   margin: 0;
 }
 
-.article > h3 {
+.articleDetailsContainer > h3 {
   margin: 0;
 }
 
