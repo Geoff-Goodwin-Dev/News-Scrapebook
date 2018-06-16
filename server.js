@@ -7,90 +7,79 @@ const request = require("request");
 const cheerio = require("cheerio");
 
 // Require all models
-// const db = require("./models");
+const db = require("./models");
+
 const PORT = 3000;
 
 // Initialize Express
 const app = express();
-
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
+app.use(express.static("public"));
 // Connect to the Mongo DB
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
 
-// GET route for scraping the gizmodo website
+mongoose.connect(MONGODB_URI);
 app.get('/scrape', (req, res) => {
   request('https://gizmodo.com/c/space', (error, response, body) => {
     if (error) throw error;
     else {
       console.log('statusCode:', response && response.statusCode);
-      console.log('body:', body);
-      const $ = cheerio.load(response.data);
-      //
-      // // Now, we grab every h2 within an article tag, and do the following:
-      // $("article h2").each(function(i, element) {
-      //   // Save an empty result object
-      //   var result = {};
-      //
-      //   // Add the text and href of every link, and save them as properties of the result object
-      //   result.title = $(this)
-      //     .children("a")
-      //     .text();
-      //   result.link = $(this)
-      //     .children("a")
-      //     .attr("href");
-      //
-      //   // Create a new Article using the `result` object built from scraping
-      //   db.Article.create(result)
-      //     .then(function(dbArticle) {
-      //       // View the added result in the console
-      //       console.log(dbArticle);
-      //     })
-      //     .catch(function(err) {
-      //       // If an error occurred, send it to the client
-      //       return res.json(err);
-      //     });
-      // });
+      const $ = cheerio.load(body);
+      // GET route for scraping the gizmodo website
+      $("article").each(function(i, element) {
+        let result = {};
+        result.headline = $(".headline", this)
+          .children("a")
+          .text();
+        result.summary = $(".entry-summary", this)
+          .children("p")
+          .text();
+        result.URL = $(".headline", this)
+          .children("a")
+          .attr("href");
+        result.author = $(".author", this)
+          .children("a")
+          .text();
+        result.updated = $("time", this)
+          .attr("datetime");
+        result.image = $("picture", this)
+          .children("source")
+          .data("srcset");
+        db.Article.create((result), (dbArticle) => {
+          console.log(dbArticle);
+        });
+      });
     }
-    // If we were able to successfully scrape and save an Article, send a message to the client
     res.send("Scrape Complete");
   });
 });
 
-// // Route for getting all Articles from the db
-// app.get("/articles", function(req, res) {
-//   // Grab every document in the Articles collection
-//   db.Article.find({})
-//     .then(function(dbArticle) {
-//       // If we were able to successfully find Articles, send them back to the client
-//       res.json(dbArticle);
-//     })
-//     .catch(function(err) {
-//       // If an error occurred, send it to the client
-//       res.json(err);
-//     });
-// });
-//
-// // Route for grabbing a specific Article by id, populate it with it's note
-// app.get("/articles/:id", function(req, res) {
-//   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-//   db.Article.findOne({ _id: req.params.id })
-//   // ..and populate all of the notes associated with it
-//     .populate("note")
-//     .then(function(dbArticle) {
-//       // If we were able to successfully find an Article with the given id, send it back to the client
-//       res.json(dbArticle);
-//     })
-//     .catch(function(err) {
-//       // If an error occurred, send it to the client
-//       res.json(err);
-//     });
-// });
-//
+// Route for getting all Articles from the db
+app.get("/articles", (req, res) => {
+  db.Article.find({})
+    .then((dbArticle) => {
+      res.json(dbArticle);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+// Route for grabbing a specific Article by id
+app.get("/articles/:id", (req, res) => {
+  db.Article.findOne({ _id: req.params.id })
+    .populate("note")
+    .then((dbArticle) => {
+      res.json(dbArticle);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 // // Route for saving/updating an Article's associated Note
 // app.post("/articles/:id", function(req, res) {
 //   // Create a new note and pass the req.body to the entry
@@ -111,7 +100,10 @@ app.get('/scrape', (req, res) => {
 //     });
 // });
 
-// Start the server
+// Starts the server
 app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
+  console.log(`App running on: 
+  http://localhost:${PORT}
+  http://localhost:${PORT}/scrape
+  http://localhost:${PORT}/articles`);
 });
