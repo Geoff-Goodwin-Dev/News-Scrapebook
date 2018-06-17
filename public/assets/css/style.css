@@ -3,6 +3,7 @@ body {
 }
 
 #articles {
+  max-width: 980px;
   border: 1px solid #888888;
   background-color: #666666;
   border-radius: 4px;
@@ -21,20 +22,22 @@ body {
 
 .imageContainer {
   float: left;
-  width: 20%;
+  width: 25%;
 }
 
 .articleImage {
+  margin: 0 auto;
+  display: block;
   width: 100%;
-  max-width: 200px;
+  /*max-width: 200px;*/
   border-radius: 4px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .articleDetailsContainer {
-  padding-left: 1%;
+  padding-left: 4%;
   float: left;
-  width: 75%;
+  width: 70%;
 }
 
 .saveButton {
