@@ -31,7 +31,11 @@ app.set("view engine", "handlebars");
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.render("index");
+  res.render('index');
+});
+
+app.get('/saved', (req, res) => {
+  res.render('saved');
 });
 
 app.get('/api/scrape', (req, res) => {
@@ -72,6 +76,17 @@ app.get('/api/scrape', (req, res) => {
 // Route for getting all Articles from the db
 app.get("/api/articles", (req, res) => {
   db.Article.find({saved: false})
+    .then((dbArticle) => {
+      res.json(dbArticle);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+// Route for getting all Articles from the db
+app.get("/api/savedArticles", (req, res) => {
+  db.Article.find({saved: true})
     .then((dbArticle) => {
       res.json(dbArticle);
     })

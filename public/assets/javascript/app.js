@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const articleContainer = $('#articles');
+  const articleContainer = $('.articlesContainer');
 
   const initPage = () => {
     articleContainer.empty();
