@@ -29,7 +29,6 @@ body {
   margin: 0 auto;
   display: block;
   width: 100%;
-  /*max-width: 200px;*/
   border-radius: 4px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
@@ -40,10 +39,16 @@ body {
   width: 70%;
 }
 
-.saveButton {
+.saveButton, .deleteArticleButton {
   position: absolute;
   right: 5px;
   top: 5px;
+}
+
+.notesButton {
+  position: absolute;
+  right: 5px;
+  top: 40px;
 }
 
 .articleDetailsContainer > a {

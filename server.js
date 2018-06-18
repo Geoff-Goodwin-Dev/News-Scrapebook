@@ -119,6 +119,18 @@ app.put("/api/saveArticle/:id", (req, res) => {
   )
 });
 
+app.put("/api/removeArticle/:id", (req, res) => {
+  db.Article.findByIdAndUpdate(
+    req.params.id,
+    { $set: { saved: false }},
+    { new: true },
+    (err, data) => {
+      if (err) return res.status(500).send(err);
+      return res.send(data);
+    }
+  )
+});
+
 // // Route for saving/updating an Article's associated Note
 // app.post("/articles/:id", function(req, res) {
 //   // Create a new note and pass the req.body to the entry

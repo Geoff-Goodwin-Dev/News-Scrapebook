@@ -29,7 +29,8 @@ $(document).ready(() => {
         `<hr>`,
         `<p class="summary">${article.summary}</p>`,
         `</div>`,
-        `<img class="saveButton" src="assets/images/saveIcon.png" data-id="${article._id}">`,
+        `<img class="deleteArticleButton" src="assets/images/trashIcon.png" data-id="${article._id}">`,
+        `<img class="notesButton" src="assets/images/notesIcon.png" data-id="${article._id}">`,
         `</div>`
       ].join('')
     );
@@ -48,7 +49,7 @@ $(document).ready(() => {
         `<h3>Would You Like to Browse Available Articles?</h3>`,
         `</div>`,
         `<div class="panel-body text-center">`,
-        `<<h4><a href='/'>Browse Articles</a></h4>`,
+        `<h4><a href='/'>Browse Articles</a></h4>`,
         `</div>`,
         `</div>`
       ].join('')
@@ -84,7 +85,7 @@ $(document).ready(() => {
       method: "put",
       url: `/api/removeArticle/${articleID}`
     }).then((data) => {
-      data.saved ? initPage() : console.log('error in deleting article');
+      !data.saved ? initPage() : console.log('error in deleting article');
     });
   };
 
@@ -140,7 +141,13 @@ $(document).ready(() => {
     });
   }
 
-  $(document).on("click", ".btn.delete", handleArticleDelete);
+  $(document).on('click', '.deleteArticleButton', function(event) {
+    event.preventDefault();
+    const articleID = $(this).data('id');
+    handleArticleDelete(articleID);
+  });
+
+
   $(document).on("click", ".btn.notes", handleArticleNotes);
   $(document).on("click", ".btn.save", handleNoteSave);
   $(document).on("click", ".btn.note-delete", handleNoteDelete);
