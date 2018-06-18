@@ -71,7 +71,7 @@ app.get('/api/scrape', (req, res) => {
 
 // Route for getting all Articles from the db
 app.get("/api/articles", (req, res) => {
-  db.Article.find({})
+  db.Article.find({saved: false})
     .then((dbArticle) => {
       res.json(dbArticle);
     })
@@ -90,6 +90,18 @@ app.get("/articles/:id", (req, res) => {
     .catch((err) => {
       res.json(err);
     });
+});
+
+app.put("/api/saveArticle/:id", (req, res) => {
+  db.Article.findByIdAndUpdate(
+    req.params.id,
+    { $set: { saved: true }},
+    { new: true },
+    (err, data) => {
+      if (err) return res.status(500).send(err);
+      return res.send(data);
+    }
+  )
 });
 
 // // Route for saving/updating an Article's associated Note
@@ -115,7 +127,5 @@ app.get("/articles/:id", (req, res) => {
 // Starts the server
 app.listen(PORT, function() {
   console.log(`App running on: 
-  http://localhost:${PORT}
-  http://localhost:${PORT}/scrape
-  http://localhost:${PORT}/articles`);
+  http://localhost:${PORT}`);
 });
