@@ -69,8 +69,9 @@ $(document).ready(() => {
 
   const handleArticleScrape = () => {
     $.get('/api/scrape').then((data) => {
-      initPage();
-      alert(data.message);
+      // initPage();
+      console.log(data);
+      alert('success!');
     });
   };
 
@@ -80,7 +81,7 @@ $(document).ready(() => {
     handleArticleSave(articleID);
   });
 
-  $(document).on("click", "#scrapeButton", (event) => {
+  $(document).on('click', '#scrapeButton', (event) => {
     event.preventDefault();
     handleArticleScrape();
   });

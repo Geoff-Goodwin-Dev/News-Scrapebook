@@ -1,9 +1,10 @@
-<div>
-  <h1>Space News</h1>
-</div>
-
-<a href="/saved">Saved Articles</a>
-<button id="scrapeButton">Scrape Articles</button>
+<header class="headerRow">
+  <img src="assets/images/spaceNewsLogo.png" alt="space news logo">
+  <a href="/saved">
+    <div id="savedArticlesButton" class="headerButton">Saved Articles</div>
+  </a>
+  <div id="scrapeButton" class="headerButton">Fetch Articles</div>
+</header>
 
 <div class="articlesContainer" id="articles">
   <!--Article contents get rendered in by app.js-->
