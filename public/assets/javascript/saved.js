@@ -1,5 +1,6 @@
 $(document).ready(() => {
   const articleContainer = $('.articlesContainer');
+  const modalBackground = $('#modalPageBackground');
 
   const initPage = () => {
     articleContainer.empty();
@@ -148,9 +149,27 @@ $(document).ready(() => {
   });
 
 
-  $(document).on("click", ".btn.notes", handleArticleNotes);
+  $(document).on("click", ".notesButton", function(event) {
+    event.preventDefault();
+    modalBackground.css("display","block");
+    // handleArticleNotes
+  });
+
+
   $(document).on("click", ".btn.save", handleNoteSave);
   $(document).on("click", ".btn.note-delete", handleNoteDelete);
+
+
+  $(document).on("click", '#closeModal', () => {
+    modalBackground.css("display","none");
+  });
+
+  $(document).on('click', (event) => {
+    if (event.target.id === 'modalPageBackground') {
+      modalBackground.css("display","none");
+    }
+  });
+
 
   initPage();
 
