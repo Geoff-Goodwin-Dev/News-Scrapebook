@@ -1,10 +1,13 @@
 body {
   font-family: 'Lalezar', cursive;
-  background-color: whitesmoke;
+  /*background-color: rgba(0, 102, 255, 0.3);*/
+  background-color: rgb(1, 22, 77);
+  padding-bottom: 15px;
   margin: 0;
 }
 .headerRow {
   width: 100%;
+  min-width: 425px;
   background-color: black;
   border-bottom: 5px solid whitesmoke;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3), 0 2px 3px rgba(0, 0, 0, 0.3);
@@ -120,16 +123,4 @@ body {
   float: right;
   width: 30%;
 }
-textarea, input {
-  display: block;
-  width: 100%;
-  background-color: #FCF5C7;
-}
-input {
-  height: 36px;
-  font-size: 24px;
-}
-textarea {
-  height: 200px;
-  font-size: 18px;
-}
+
