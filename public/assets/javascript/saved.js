@@ -71,7 +71,7 @@ $(document).ready(() => {
           [
             `<li class="list-group-item note">`,
             note.noteText,
-            `<button class="btn btn-danger note-delete" data-id=${note._id}>x</button>`,
+            `<button class="deleteNote" data-id=${note._id}>x</button>`,
             `</li>`
           ].join('')
         );
@@ -90,33 +90,27 @@ $(document).ready(() => {
     });
   };
 
-  function handleArticleNotes() {
-    var currentArticle = $(this).parents(".panel").data();
-    $.get("/api/notes/" + currentArticle._id).then(function(data) {
-      var modalText = [
-        "<div class='container-fluid text-center'>",
-        "<h4>Notes For Article: ",
-        currentArticle._id,
-        "</h4>",
-        "<hr />",
-        "<ul class='list-group note-container'>",
-        "</ul>",
-        "<textarea placeholder='New Note' rows='4' cols='60'></textarea>",
-        "<button class='btn btn-success save'>Save Note</button>",
-        "</div>"
-      ].join("");
-      bootbox.dialog({
-        message: modalText,
-        closeButton: true
-      });
-      var noteData = {
-        _id: currentArticle._id,
-        notes: data || []
-      };
-      $(".btn.save").data("article", noteData);
-      renderNotesList(noteData);
+  const handleArticleNotes = (articleID) => {
+    $.get(`/api/articleNotes/${articleID}`).then((data) => {
+      const modalText = [
+        `<div class="container-fluid text-center">`,
+        `<h4>Notes for article ${articleID}</h4>`,
+        `<hr>`,
+        `<ul class="list-group note-container">`,
+        `</ul>`,
+        `<textarea placeholder="New Note" rows="4"></textarea>`,
+        `<button class="saveNoteButton">Save Note</button>`,
+        `</div>`
+      ].join('');
+      $('#modalContent').append(modalText);
+    const noteData = {
+      _id: articleID,
+      notes: data || []
+    };
+    $('.saveNoteButton').data('article', noteData);
+    renderNotesList(noteData);
     });
-  }
+  };
 
   function handleNoteSave() {
     var noteData;
@@ -148,13 +142,13 @@ $(document).ready(() => {
     handleArticleDelete(articleID);
   });
 
-
   $(document).on("click", ".notesButton", function(event) {
     event.preventDefault();
     modalBackground.css("display","block");
-    // handleArticleNotes
+    const articleID = $(this).data('id');
+    console.log(`articleID: ${articleID}`);
+    handleArticleNotes(articleID);
   });
-
 
   $(document).on("click", ".btn.save", handleNoteSave);
   $(document).on("click", ".btn.note-delete", handleNoteDelete);

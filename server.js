@@ -96,7 +96,7 @@ app.get("/api/savedArticles", (req, res) => {
 });
 
 // Route for grabbing a specific Article by id
-app.get("/articles/:id", (req, res) => {
+app.get("/api/articleNotes/:id", (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate("note")
     .then((dbArticle) => {
