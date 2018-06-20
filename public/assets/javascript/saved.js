@@ -62,7 +62,7 @@ $(document).ready(() => {
     const notesToRender = [];
     let currentNote;
     if (!data.notes.length) {
-      currentNote = `<li class="list-group-item">No notes for this article yet.</li>`;
+      currentNote = `<li class="list-group-item">There are currently no notes for this article</li>`;
       notesToRender.push(currentNote);
     }
     else {
@@ -91,6 +91,7 @@ $(document).ready(() => {
   };
 
   const handleArticleNotes = (articleID) => {
+    $('#modalContent').empty();
     $.get(`/api/articleNotes/${articleID}`).then((data) => {
       const modalText = [
         `<div class="container-fluid text-center">`,
@@ -98,7 +99,7 @@ $(document).ready(() => {
         `<hr>`,
         `<ul class="list-group note-container">`,
         `</ul>`,
-        `<textarea placeholder="New Note" rows="4"></textarea>`,
+        `<textarea class="noteTextArea" placeholder="New Note" rows="4"></textarea>`,
         `<button class="saveNoteButton">Save Note</button>`,
         `</div>`
       ].join('');
@@ -112,19 +113,19 @@ $(document).ready(() => {
     });
   };
 
-  function handleNoteSave() {
-    var noteData;
-    var newNote = $(".bootbox-body textarea").val().trim();
+  const handleNoteSave = (articleID) => {
+    let noteData;
+    const newNote = $(".noteTextArea").val().trim();
     if (newNote) {
       noteData = {
-        _id: $(this).data("article")._id,
+        _id: articleID,
         noteText: newNote
       };
-      $.post("/api/notes", noteData).then(function() {
-        bootbox.hideAll();
+      $.post(`/api/addNote/${articleID}`, noteData).then(() => {
+        modalBackground.css("display","none");
       });
     }
-  }
+  };
 
   function handleNoteDelete() {
     var noteToDelete = $(this).data("_id");
@@ -132,7 +133,7 @@ $(document).ready(() => {
       url: "/api/notes/" + noteToDelete,
       method: "DELETE"
     }).then(function() {
-      bootbox.hideAll();
+      modalBackground.css("display","none");
     });
   }
 
@@ -150,7 +151,13 @@ $(document).ready(() => {
     handleArticleNotes(articleID);
   });
 
-  $(document).on("click", ".btn.save", handleNoteSave);
+  $(document).on("click", ".saveNoteButton", function(event) {
+    event.preventDefault();
+    const articleID = $('.saveNoteButton').data('article');
+    handleNoteSave(articleID);
+  });
+
+
   $(document).on("click", ".btn.note-delete", handleNoteDelete);
 
 
